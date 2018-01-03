@@ -1,0 +1,19 @@
+extends ../templates/base
+
+
+append sharedVars
+  - var pageUrl = 'index.html';
+
+block title
+  | Index page
+block main
+
+  section.section-intro
+    .container
+      .demo-slider
+        div.slick-item.back-img(style="background-image: url('src/imgs/sample-img-1.jpg')")
+          h1 Home lorem ipsum
+        div.slick-item.back-img(style="background-image: url('src/imgs/sample-img-2.jpg')")
+          h1 Lorem ipsum
+        div.slick-item.back-img(style="background-image: url('src/imgs/sample-img-3.jpg')")
+          h1 Ipsum dolor

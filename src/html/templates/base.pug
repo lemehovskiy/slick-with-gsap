@@ -1,0 +1,18 @@
+- var pages = [{name: 'Home', url: 'index.html'}, {name: 'About', url: 'about.html'}, {name: 'Contact', url: 'contact.html'}];
+
+mixin navItem(url, name, current)
+    li.nav-item(class={active: current})
+        a(href=url)= name
+
+block sharedVars
+
+doctype html
+html
+  head
+    meta(charset = 'utf-8')
+    meta(name='viewport', content="initial-scale=1.0, width=device-width")
+    title
+      block title
+
+  body
+    block main
