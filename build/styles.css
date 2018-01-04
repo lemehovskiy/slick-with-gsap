@@ -54,6 +54,10 @@ body {
 .container {
   margin: auto; }
 
+#page {
+  overflow: hidden;
+  position: relative; }
+
 section {
   padding: 0 20px; }
 
@@ -92,7 +96,8 @@ section {
   position: relative;
   min-height: 100vh;
   color: white;
-  padding: 0; }
+  padding: 0;
+  overflow: hidden; }
   .section-intro:before {
     content: '';
     position: absolute;

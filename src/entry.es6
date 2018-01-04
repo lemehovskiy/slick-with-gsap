@@ -99,6 +99,7 @@ $(document).ready(function () {
 
         function intro_animation() {
 
+            $demo_slider.slick('slickPlay');
 
             // //play intro slide
             time_lines_arr[0].play();

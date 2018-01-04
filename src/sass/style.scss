@@ -21,6 +21,11 @@ body {
 
 }
 
+#page {
+  overflow: hidden;
+  position: relative;
+}
+
 section {
   padding: 0 20px;
 }
