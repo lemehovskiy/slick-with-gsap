@@ -10340,65 +10340,119 @@ var $ = __webpack_require__(0);
 
 __webpack_require__(6);
 
-$('h1').each(function (index) {
-    var characters = $(this).text().split("");
-    var $this = $(this);
-
-    $this.empty();
-    $.each(characters, function (i, el) {
-        $this.append("<span>" + el + "</span>");
-    });
-});
-
 $(document).ready(function () {
 
-    var $demo_slider = $('.demo-slider');
+    sample_animation();
 
-    $demo_slider.slick({
-        slidesToShow: 1,
-        dots: false,
-        arrows: false
-    });
+    function sample_animation() {
 
-    //create timeline arr
-    var time_lines_arr = [];
-    var time_lines_arr_full = [];
+        // split text
+        split_text();
 
-    $('.slick-slide').each(function () {
+        //call loader animation
+        loader_animation();
 
-        var $this = $(this);
+        // create hide loader flags
+        var page_loaded = false;
+        var loader_animation_play = false;
 
-        var title = $this.find('h1 span');
+        //init timeline array
+        var time_lines_arr = [];
+        var time_lines_arr_full = [];
 
-        var tl = new TimelineMax();
+        //init slider
+        var $demo_slider = $('.demo-slider');
 
-        tl.pause();
-
-        tl.staggerFrom(title, 1, { opacity: 0 }, 0.1);
-
-        //push all slides
-        time_lines_arr_full.push(tl);
-
-        //push only if not cloned
-        if (!$this.hasClass('slick-cloned')) {
-            time_lines_arr.push(tl);
-        }
-    });
-
-    //play intro slide
-    time_lines_arr[0].play();
-
-    $demo_slider.on('afterChange', function (event, slick, currentSlide) {
-
-        //pause all timelines
-        time_lines_arr_full.forEach(function (item) {
-            item.pause();
-            item.progress(0);
+        $demo_slider.slick({
+            slidesToShow: 1,
+            dots: false,
+            arrows: false
         });
 
-        //play current timeline
-        time_lines_arr[currentSlide].play();
-    });
+        // create timelines and push to arrays
+        create_timelines();
+
+        //hide loader on load
+        $(window).on('load', function () {
+            page_loaded = true;
+            if (loader_animation_play) hide_loader();
+        });
+
+        function create_timelines() {
+            $('.slick-slide').each(function () {
+
+                var $this = $(this);
+
+                //create sample selectors
+                var title = $this.find('.title span');
+                var subtitle = $this.find('.subtitle');
+
+                var tl = new TimelineMax();
+
+                //pause timeline
+                tl.pause();
+
+                //timeline animation tweens
+                tl.staggerFrom(title, 1, { opacity: 0 }, 0.1);
+                tl.from(subtitle, 0.9, { y: 20, opacity: 0 }, '-=1');
+
+                //push all slides
+                time_lines_arr_full.push(tl);
+
+                //push only if not cloned
+                if (!$this.hasClass('slick-cloned')) {
+                    time_lines_arr.push(tl);
+                }
+            });
+        }
+
+        function hide_loader() {
+            TweenMax.to("#preloader", 1, { x: '100%', onComplete: intro_animation });
+        }
+
+        function loader_animation() {
+            var tl = new TimelineMax({
+                onComplete: function onComplete() {
+
+                    loader_animation_play = true;
+
+                    if (page_loaded) hide_loader();
+                }
+            });
+
+            tl.staggerFrom("#preloader span", 1, { y: 20, opacity: 0 }, 0.15);
+        }
+
+        function intro_animation() {
+
+            // //play intro slide
+            time_lines_arr[0].play();
+
+            $demo_slider.on('afterChange', function (event, slick, currentSlide) {
+
+                //pause all timelines
+                time_lines_arr_full.forEach(function (item) {
+                    item.pause();
+                    item.progress(0);
+                });
+
+                //play current timeline
+                time_lines_arr[currentSlide].play();
+            });
+        }
+
+        function split_text() {
+            $('.split-text').each(function (index) {
+                var characters = $(this).text().split("");
+                var $this = $(this);
+
+                $this.empty();
+                $.each(characters, function (i, el) {
+                    $this.append("<span>" + el + "</span>");
+                });
+            });
+        }
+    }
 });
 
 /***/ }),

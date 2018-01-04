@@ -26,9 +26,19 @@
       display: flex !important;
       justify-content: center;
       align-items: center;
-      font-size: 50px;
-      text-transform: uppercase;
-      font-weight: 700;
+      flex-direction: column;
+
+      .title {
+        font-size: 50px;
+        text-transform: uppercase;
+        font-weight: 700;
+      }
+
+      .subtitle {
+        font-size: 40px;
+        text-transform: uppercase;
+        font-weight: 700;
+      }
     }
   }
 }
