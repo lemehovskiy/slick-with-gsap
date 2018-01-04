@@ -9,7 +9,6 @@ let $ = require("jquery");
 require('slick-carousel');
 
 
-
 $('h1').each(function (index) {
     let characters = $(this).text().split("");
     let $this = $(this);
@@ -21,12 +20,22 @@ $('h1').each(function (index) {
 
 });
 
-$(document).ready(function(){
+$(document).ready(function () {
+
+    let $demo_slider = $('.demo-slider');
+
+    $demo_slider.slick({
+        slidesToShow: 1,
+        dots: false,
+        arrows: false
+    });
 
 
+    //create timeline arr
     let time_lines_arr = [];
+    let time_lines_arr_full = [];
 
-    $('.slick-item').each(function(){
+    $('.slick-slide').each(function () {
 
         let $this = $(this);
 
@@ -38,27 +47,31 @@ $(document).ready(function(){
 
         tl.staggerFrom(title, 1, {opacity: 0}, 0.1);
 
-        time_lines_arr.push(tl);
+        //push all slides
+        time_lines_arr_full.push(tl);
+
+        //push only if not cloned
+        if (!($this.hasClass('slick-cloned'))) {
+            time_lines_arr.push(tl);
+        }
     })
 
 
-    let $demo_slider = $('.demo-slider');
-
-    $demo_slider.slick({
-        slidesToShow: 1,
-        dots: false,
-        arrows: false
-    });
+    //play intro slide
+    time_lines_arr[0].play();
 
 
-    $demo_slider.on('beforeChange', function(event, slick, currentSlide, nextSlide){
+    $demo_slider.on('afterChange', function (event, slick, currentSlide) {
 
-        time_lines_arr[nextSlide].progress(0);
-    });
+        //pause all timelines
+        time_lines_arr_full.forEach(function(item){
+            item.pause();
+            item.progress(0);
+        })
 
-    $demo_slider.on('afterChange', function(event, slick, currentSlide){
-
+        //play current timeline
         time_lines_arr[currentSlide].play();
+
     });
 
 })
